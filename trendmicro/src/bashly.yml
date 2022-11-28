@@ -1,0 +1,111 @@
+name: trendmicro
+help: TrendMicro Deep Security installer for Linux
+version: 0.1.0
+
+commands:
+- name: setup
+  alias: s
+  help: Setup dependencies for TrendMicro agent
+  examples:
+  - ./trendmicro setup --os-name Debian
+  - ./trendmicro setup --os-name SUSE
+
+  flags:
+  - long: --os-name
+    short: -o
+    arg: os_name
+    help: Operating system name
+    required: true
+    allowed:
+    - Debian
+    - Ubuntu
+    - SUSE
+    - RedHatEnterprise
+    - Amazon
+
+- name: install
+  alias: i
+  help: Install TrendMicro agent
+  examples:
+  - ./trendmicro install --os-name Debian --os-version 10
+
+  flags:
+  - long: --os-name
+    short: -o
+    arg: os_name
+    help: Operating system name
+    required: true
+    allowed:
+    - Debian
+    - Ubuntu
+    - SUSE
+    - RedHatEnterprise
+    - Amazon
+
+  - long: --os-version
+    short: -v
+    arg: os_version
+    help: Operating system version
+    required: true
+
+- name: activate
+  alias: a
+  help: Activates TrendMicro agent
+  examples:
+  - ./trendmicro activate --cloud-provider aws
+  - ./trendmicro activate --cloud-provider aws --proxy de.coia.siemens.net:9400
+
+  environment_variables:
+  - name: ACTIVATION_DSM
+    help: Url of the trendmicro backend infrastructure
+    default: "dsm://virusprotection.it-solutions.atos.net:4456/"
+    required: true
+
+  - name: TENANT_ID
+    help: Tenant Id of the TrendMicro backend to be used
+    default: 04ACEB55-E636-5B09-AC96-3115E9D09CB3
+    required: true
+
+  - name: TENANT_PW
+    help: Tenant Password of the TrendMicro backend to be used
+    default: 2C2ED37F-95E3-DF48-3661-4D7DEB1288C7
+    required: true
+
+  - name: POLICY_ID
+    help: Policy Id for TrendMicro
+    default: "18"
+    required: true
+
+  - name: GROUP_ID
+    help: Group Id for TrendMicro
+    default: "2"
+    required: true  
+
+  flags:
+  - long: --cloud-provider
+    short: -c
+    arg: cloud_provider
+    help: Cloud provider that TrendMicro is being used on
+    required: true
+    allowed:
+    - aws
+    - azure
+    - gcp
+
+  - long: --proxy
+    short: -p
+    arg: proxy
+    default: ""
+    help: Use a proxy with an agent
+
+- name: reset
+  alias: r
+  help: Reset TrendMicro agent
+  examples:
+  - ./trendmicro reset
+
+- name: check
+  alias: c
+  help: Check if TrendMicro is activated correctly
+  examples:
+  - ./trendmicro check
